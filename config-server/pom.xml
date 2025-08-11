@@ -14,10 +14,6 @@
 	<name>config-server</name>
 	<description>Microservices capstone project - config-server</description>
 
-	<properties>
-		<java.version>24</java.version>
-		<spring-cloud.version>2025.0.0</spring-cloud.version>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
