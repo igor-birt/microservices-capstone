@@ -73,7 +73,7 @@ public final class CsvProductReader {
                 String brand = val(r, H_BRAND);
                 Long totalReviews = toLong(val(r, H_TOTAL_REVIEWS));
 
-                if (uniqId == null || uniqId.isBlank()) {
+                if (uniqId == null || sku == null) {
                     continue;
                 }
 
