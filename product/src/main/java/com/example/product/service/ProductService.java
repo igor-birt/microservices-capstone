@@ -12,7 +12,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 import java.util.stream.Collectors;
-//TODO
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -22,9 +21,10 @@ public class ProductService {
 
     @CircuitBreaker(name = "downstream", fallbackMethod = "unavailableById")
     public Optional<Product> getAvailableByUniqId(final String id) {
-        Product p = null;
+
+        final Product p;
         try {
-            p = catalogClient.getByUniqId(id);
+             p = catalogClient.getByUniqId(id);
         } catch (final Exception ex) {
             return Optional.empty();
         }
@@ -36,24 +36,23 @@ public class ProductService {
             throw ex;
         }
 
-        return (a != null && a.available()) ? Optional.of(p) : Optional.empty();
+        return (a.available()) ? Optional.of(p) : Optional.empty();
     }
 
     @CircuitBreaker(name = "downstream", fallbackMethod = "unavailableBySku")
     public List<Product> getAvailableBySku(final String sku) {
         final List<Product> products = catalogClient.getBySku(sku);
-        if (products == null || products.isEmpty()) {
+        if (products.isEmpty()) {
             return Collections.emptyList();
         }
 
         final List<String> ids = products.stream()
                 .map(Product::uniqId)
-                .filter(Objects::nonNull)
                 .toList();
 
         final List<Availability> avs = inventoryClient.bulkCheckAvailability(ids);
-        final Set<String> availableIds = avs == null ? Set.of()
-                : avs.stream()
+
+        final Set<String> availableIds = avs.stream()
                 .filter(Availability::available)
                 .map(Availability::uniqId)
                 .collect(Collectors.toSet());
