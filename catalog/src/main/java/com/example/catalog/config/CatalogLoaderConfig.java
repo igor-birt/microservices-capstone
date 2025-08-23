@@ -5,7 +5,7 @@ import com.example.catalog.repository.CatalogRepository;
 import com.example.catalog.repository.InMemoryCatalogRepository;
 import com.example.catalog.util.CsvProductReader;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 

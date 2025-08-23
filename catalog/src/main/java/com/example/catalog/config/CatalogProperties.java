@@ -11,4 +11,13 @@ public class CatalogProperties {
 
     private String classpath;
     private int maxRows;
+
+    private Delay delayMs;
+
+    @Getter
+    @Setter
+    public static class Delay {
+        private int min;
+        private int max;
+    }
 }

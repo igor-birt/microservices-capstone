@@ -1,6 +1,6 @@
 package com.example.catalog.service;
 
-import com.example.catalog.config.DelayProperties;
+import com.example.catalog.config.CatalogProperties;
 import com.example.catalog.model.Product;
 import com.example.catalog.repository.CatalogRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class CatalogService {
 
     private final CatalogRepository catalogRepository;
-    private final DelayProperties delayProperties;
+    private final CatalogProperties catalogProperties;
 
     public Optional<Product> getByUniqId(final String uniqId) {
         addDelay();
@@ -28,12 +28,12 @@ public class CatalogService {
     }
 
     private void addDelay() {
-        final int minDelay = delayProperties.getMin();
-        final int maxDelay = delayProperties.getMax();
+        final int minDelay = catalogProperties.getDelayMs().getMin();
+        final int maxDelay = catalogProperties.getDelayMs().getMax();
         if (minDelay > 0 && maxDelay >= minDelay) {
             try {
                 Thread.sleep(ThreadLocalRandom.current().nextInt(minDelay, maxDelay + 1));
-            } catch (InterruptedException ignored) {
+            } catch (final InterruptedException ignored) {
                 Thread.currentThread().interrupt();
             }
         }
